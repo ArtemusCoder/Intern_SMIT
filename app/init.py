@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from tortoise.contrib.fastapi import register_tortoise
-from config import settings
+from config import settings, get_db_url
 
 
 def create_app() -> FastAPI:
@@ -16,11 +16,8 @@ def create_app() -> FastAPI:
             db=settings.POSTGRESQL_DATABASE
         ),
         modules={"models": ["models.Rate"]},
-        generate_schemas=True,
+        generate_schemas=False,
         add_exception_handlers=True,
     )
+
     return app
-
-
-def get_db_url(user, passwd, port, host, db):
-    return f"postgres://{user}:{passwd}@{host}:{port}/{db}"
